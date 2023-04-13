@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function setCookie(cname,cvalue,exdays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  let expires = "expires=" + d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function checkCookie() {
+  let user = getCookie("username");
+  if (user != "") {
+    alert("Welcome again " + user);
+  } else {
+     user = prompt("Please enter your name:","");
+     if (user != "" && user != null) {
+       setCookie("username", user, 30);
+     }
+  }
+}
+</script>
+</head>
+
+<head>
+  <title>Cookie Example</title>
+  <style>
+    body {
+      font-family: Verdana, sans-serif;
+      font-size: 16px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Cookie Example</h1>
+  <form>
+    <label for="cookieValue">Enter a value for the cookie:</label>
+    <input type="text" id="cookieValue">
+    <button type="button" onclick="setCookie()">Set Cookie</button>
+  </form>
+  <div id="cookieDisplay"></div>
+  
+  <script>
+    function setCookie() {
+      var value = document.getElementById("cookieValue").value;
+      document.cookie = "myCookie=" + value + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+      displayCookie();
+    }
+    function displayCookie() {
+      var cookies = document.cookie.split(";");
+      for (var i = 0; i < cookies.length; i++) {
+        var parts = cookies[i].split("=");
+        if (parts[0].trim() === "myCookie") {
+          var value = parts[1];
+          document.getElementById("cookieDisplay").textContent = "Cookie value: " + value;
+          return;
+        }
+      }
+      document.getElementById("cookieDisplay").textContent = "Cookie not found";
+    }
+    displayCookie();
+  </script>
+  <h3> References: </h3>
+  <a href = "https://www.w3schools.com/js/js_cookies.asp" target = "_blank">W3Schools - JavaScript Cookies</a><br>
+<body onload="checkCookie()"></body>
+<footer>
+    <p> &copy; Disha Rana - April 11th, 2023 </p>
+</footer>
+
+</html>
